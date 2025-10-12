@@ -169,3 +169,50 @@ routes = [
 ]
 
 app = Starlette(debug=False, routes=routes)
+# --- add at top ---
+from starlette.responses import HTMLResponse
+
+# --- add this route ---
+def landing(_):
+    return HTMLResponse("""
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FAFSA Guide (Demo)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <style>
+      body { font-family: system-ui,-apple-system,Segoe UI,Roboto; margin: 2rem; max-width: 860px }
+      .card { border:1px solid #ddd; border-radius:12px; padding:1rem 1.25rem; margin:1rem 0 }
+      .cta { display:inline-block; padding:.7rem 1.1rem; border-radius:10px; background:#0b5; color:#fff; text-decoration:none }
+      iframe { width:100%; height:600px; border:1px solid #eee; border-radius:12px }
+      small { color:#666 }
+    </style>
+  </head>
+  <body>
+    <h1>FAFSA Guide (Demo)</h1>
+    <div class="card">
+      <p>This demo agent can prefill your info (no PII), tell you what’s left, and walk you through filing.</p>
+      <p><a class="cta" href="#chat">Open demo chat</a></p>
+    </div>
+
+    <!-- Option A: Embed your Agent Builder share link in an iframe -->
+    <div id="chat" class="card">
+      <h2>Chat</h2>
+      <iframe src="YOUR_AGENT_BUILDER_SHARE_URL" title="FAFSA Agent"></iframe>
+      <p><small>Having trouble? <a href="YOUR_AGENT_BUILDER_SHARE_URL" target="_blank">Open in a new tab</a></small></p>
+    </div>
+
+    <!-- Option B (later): swap the iframe for OpenAI’s Chat Widget embed snippet if/when you have it -->
+  </body>
+</html>
+    """)
+
+# --- register the route in your app ---
+app = Starlette(debug=False, routes=[
+    Route("/", landing),           # <-- new
+    Route("/health", health),
+    Mount("/", mcp.http_app()),    # keeps POST /mcp working
+])
+
+
