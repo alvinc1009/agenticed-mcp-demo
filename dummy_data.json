@@ -1,35 +1,24 @@
 {
   "students": {
-    "student_001": {
-      "name": "Alex Rivera",
+    "student_en_001": {
+      "name": "Jordan Rivera",
       "language": "en",
-      "eligibility": { "fafsa": "eligible" },
-      "state": "MA",
-      "school_preferences": ["Harvard University"]
+      "eligible": true,
+      "year_default": "2025–26",
+      "dependency_hint": "dependent",
+      "parents_status": "divorced",
+      "contributors_expected": 2,
+      "schools_default": ["Harvard University", "Bunker Hill Community College"]
     },
-    "student_002": {
-      "name": "Sofía Martínez",
+    "student_es_001": {
+      "name": "María López",
       "language": "es",
-      "eligibility": { "fafsa": "eligible" },
-      "state": "CA",
-      "school_preferences": ["University of California, Berkeley"]
-    }
-  },
-  "deadlines_2025_26": {
-    "federal_deadline": "2026-06-30",
-    "schools": {
-      "Harvard University": {
-        "priority": "2025-02-15",
-        "source": "static-demo"
-      },
-      "University of California, Berkeley": {
-        "priority": "2025-03-02",
-        "source": "static-demo"
-      }
-    },
-    "states": {
-      "MA": { "state_deadline": "2025-05-01", "source": "static-demo" },
-      "CA": { "state_deadline": "2025-04-02", "source": "static-demo" }
+      "eligible": true,
+      "year_default": "2025–26",
+      "dependency_hint": "dependent",
+      "parents_status": "casados",
+      "contributors_expected": 2,
+      "schools_default": ["Universidad de Harvard"]
     }
   }
 }
