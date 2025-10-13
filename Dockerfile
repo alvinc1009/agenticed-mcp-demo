@@ -10,5 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY server.py .
 
-# Use Render's $PORT
+# IMPORTANT: This is the “start command”.
+# Do NOT set a Docker Command override in Render.
 CMD ["bash", "-lc", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-10000} --log-level info"]
