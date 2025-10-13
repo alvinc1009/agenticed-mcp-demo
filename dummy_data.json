@@ -1,0 +1,22 @@
+{
+  "student_001": {
+    "name": "Alex Harper",
+    "email": "alex@example.com",
+    "fa_year": "2025–26",
+    "dependency": "dependent",
+    "fsa_id_ready": true,
+    "parent_status": "divorced",
+    "contributors": 2,
+    "schools": ["Harvard University", "Bunker Hill Community College", "Ohio Wesleyan University"]
+  },
+  "student_002": {
+    "name": "Jordan Reyes",
+    "email": "jordan@example.com",
+    "fa_year": "2024–25",
+    "dependency": "independent",
+    "fsa_id_ready": false,
+    "parent_status": null,
+    "contributors": 1,
+    "schools": []
+  }
+}
