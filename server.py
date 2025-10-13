@@ -20,9 +20,9 @@ def health(_):
 def version(_):
     return PlainTextResponse("agenticed-mcp-demo / fastmcp 2.12.1")
 
-# Starlette app with /mcp mounted (JSON-RPC over HTTP POST)
-app = Starlette(routes=[
+# Starlette app with /mcp mounted (JSON-RPC over HTTP POST at /mcp)
+app = Starlette(debug=False, routes=[
     Route("/health", health, methods=["GET"]),
     Route("/version", version, methods=["GET"]),
-    Mount("/", mcp.http_app()),   # <- THIS provides POST /mcp
+    Mount("/", mcp.http_app()),
 ])
