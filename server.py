@@ -4,23 +4,22 @@ from starlette.applications import Starlette
 from starlette.responses import JSONResponse
 from starlette.routing import Route, Mount
 
-# --- MCP server -------------------------------------------------------------
-mcp = FastMCP(name="Agenticed Demo")
+# Minimal MCP server
+mcp = FastMCP("agenticed-mcp-demo")
 
 @mcp.tool()
-def ping(text: str = "pong") -> str:
-    """Simple echo tool to verify MCP is alive."""
+def ping(text: str) -> str:
+    """Echo a string back."""
     return text
 
-# --- HTTP app (for Render health checks, etc.) ------------------------------
 def health(_request):
     return JSONResponse({"ok": True, "routes": ["/mcp"]})
 
-# Expose both /health (GET) and /mcp (POST JSON-RPC via FastMCP)
+# ASGI app: /health + MCP JSON-RPC at /mcp
 app = Starlette(
     debug=False,
     routes=[
         Route("/health", health),
-        Mount("/", mcp.http_app()),  # POST /mcp stays available here
+        Mount("/", app=mcp.http_app()),  # POST /mcp
     ],
 )
