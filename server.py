@@ -1,12 +1,12 @@
-# server.py — minimal MCP HTTP server with health/version + ping + demo profile
-
+# server.py — minimal MCP HTTP server with health/version + ping tool (+ optional dummy data)
 from fastmcp import FastMCP
 from starlette.applications import Starlette
 from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.routing import Route, Mount
-import json, os
+import json
+from pathlib import Path
 
-# ---------- MCP server ----------
+# ---- MCP instance ----
 mcp = FastMCP(name="agenticed-demo")
 
 @mcp.tool()
@@ -14,45 +14,22 @@ def ping(message: str) -> str:
     """Echo a short message."""
     return f"pong: {message}"
 
-# Fallback demo DB (used if dummy_data.json not present/invalid)
-_FALLBACK_DB = {
-    "students": {
-        "student_001": {
-            "name": "Demo Student",
-            "email": "demo@example.com",
-            "fa_eligible": True,
-            "fa_years": ["2025–26"],
-            "dependency": "dependent",
-            "fsa_id_ready": True,
-            "parent_status": "divorced",
-            "contributors": 2,
-            "schools": [
-                "Harvard University",
-                "Bunker Hill Community College",
-                "Ohio Wesleyan University"
-            ]
-        }
-    }
-}
+# Optional: serve dummy student data if dummy_data.json exists
+_dummy = None
+data_path = Path(__file__).with_name("dummy_data.json")
+if data_path.exists():
+    with data_path.open("r", encoding="utf-8") as f:
+        _dummy = json.load(f)
 
-def _load_db():
-    path = os.path.join(os.path.dirname(__file__), "dummy_data.json")
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return _FALLBACK_DB
+if _dummy and "students" in _dummy:
+    @mcp.tool()
+    def get_student_profile(student_id: str) -> dict:
+        """Return test student profile from dummy_data.json by id."""
+        return _dummy["students"].get(student_id, {})
 
-_DB = _load_db()
-
-@mcp.tool()
-def get_student_profile(student_id: str) -> dict:
-    """Return a demo student profile from dummy_data.json (or fallback)."""
-    return _DB.get("students", {}).get(student_id, {})
-
-# ---------- HTTP utils ----------
+# ---- Plain routes ----
 def root(_):
-    return PlainTextResponse("OK. Use POST /mcp for JSON-RPC. Try GET /health.")
+    return PlainTextResponse("OK. Use POST /mcp for JSON-RPC. Try GET /health and /version.")
 
 def health(_):
     return JSONResponse({"ok": True, "routes": ["/mcp"]})
@@ -60,11 +37,17 @@ def health(_):
 def version(_):
     return PlainTextResponse("agenticed-mcp-demo / fastmcp 2.12.1 / mcp 1.16.0")
 
-# ---------- Starlette app ----------
-app = Starlette(debug=False, routes=[
-    Route("/", root, methods=["GET"]),
-    Route("/health", health, methods=["GET"]),
-    Route("/version", version, methods=["GET"]),
-    # Provides POST /mcp (JSON-RPC) while keeping the routes above working
-    Mount("/", mcp.http_app()),
-])
+# ---- Build the ASGI app
+# IMPORTANT: pass the MCP app's lifespan into Starlette
+mcp_app = mcp.http_app()
+
+app = Starlette(
+    debug=False,
+    routes=[
+        Route("/", root, methods=["GET"]),
+        Route("/health", health, methods=["GET"]),
+        Route("/version", version, methods=["GET"]),
+        Mount("/", mcp_app),  # provides POST /mcp
+    ],
+    lifespan=mcp_app.lifespan,  # <-- the crucial bit
+)
