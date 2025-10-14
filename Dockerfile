@@ -1,9 +1,13 @@
 FROM python:3.12-slim
+
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# ensure dummy_data.json exists at repo root
+# Upgrade pip first, then install. Add -v for clearer errors if needed.
+RUN python -m pip install --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
+
+# make sure these files exist at the repo root
 COPY server.py dummy_data.json .
 
 ENV PORT=10000
