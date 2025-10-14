@@ -2,3 +2,5 @@ fastmcp==2.12.1
 mcp==1.16.0
 uvicorn==0.32.1
 starlette==0.38.6
+fastapi==0.115.5
+requests==2.32.3
