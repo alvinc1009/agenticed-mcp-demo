@@ -1,24 +1,26 @@
 {
-  "students": {
-    "student_en_001": {
-      "name": "Jordan Rivera",
-      "language": "en",
-      "eligible": true,
-      "year_default": "2025–26",
-      "dependency_hint": "dependent",
-      "parents_status": "divorced",
-      "contributors_expected": 2,
-      "schools_default": ["Harvard University", "Bunker Hill Community College"]
-    },
-    "student_es_001": {
-      "name": "María López",
-      "language": "es",
-      "eligible": true,
-      "year_default": "2025–26",
-      "dependency_hint": "dependent",
-      "parents_status": "casados",
-      "contributors_expected": 2,
-      "schools_default": ["Universidad de Harvard"]
-    }
+  "student_en_001": {
+    "id": "student_en_001",
+    "first_name": "Ava",
+    "last_name": "Johnson",
+    "language": "en",
+    "eligible_fafsa": true,
+    "year": "2025–26",
+    "dependency": "dependent",
+    "parent_status_2023": "divorced",
+    "contributors_expected": 2,
+    "schools": ["Harvard University"]
+  },
+  "student_es_001": {
+    "id": "student_es_001",
+    "first_name": "Mateo",
+    "last_name": "García",
+    "language": "es",
+    "eligible_fafsa": true,
+    "year": "2025–26",
+    "dependency": "dependent",
+    "parent_status_2023": "divorciado",
+    "contributors_expected": 2,
+    "schools": ["Universidad de Harvard"]
   }
 }
