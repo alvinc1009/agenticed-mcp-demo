@@ -1,26 +1,16 @@
 {
-  "student_en_001": {
-    "id": "student_en_001",
-    "first_name": "Ava",
-    "last_name": "Johnson",
+  "student_en": {
+    "name": "Alex Carter",
     "language": "en",
     "eligible_fafsa": true,
-    "year": "2025–26",
-    "dependency": "dependent",
-    "parent_status_2023": "divorced",
-    "contributors_expected": 2,
-    "schools": ["Harvard University"]
+    "email": "alex@example.com",
+    "state": "MA"
   },
-  "student_es_001": {
-    "id": "student_es_001",
-    "first_name": "Mateo",
-    "last_name": "García",
+  "student_es": {
+    "name": "María López",
     "language": "es",
     "eligible_fafsa": true,
-    "year": "2025–26",
-    "dependency": "dependent",
-    "parent_status_2023": "divorciado",
-    "contributors_expected": 2,
-    "schools": ["Universidad de Harvard"]
+    "email": "maria@example.com",
+    "state": "MA"
   }
 }
