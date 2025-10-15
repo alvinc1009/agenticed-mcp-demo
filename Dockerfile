@@ -1,11 +1,14 @@
 FROM python:3.12-slim
 
 WORKDIR /app
+
+# Install deps first for better layer cache
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Include dummy data if you want the profile tool
-COPY server.py dummy_data.json .  # if you don’t have dummy_data.json yet, change to: COPY server.py .
+# App code + optional dummy data
+COPY server.py dummy_data.json .  # if dummy_data.json doesn't exist, it’s fine; Docker will warn, not fail, on Render
 
+# Default port / command
 ENV PORT=10000
-CMD ["uvicorn","server:app","--host","0.0.0.0","--port","10000","--proxy-headers","--log-level","debug"]
+CMD ["uvicorn","server:app","--host","0.0.0.0","--port","10000","--log-level","debug","--proxy-headers"]
