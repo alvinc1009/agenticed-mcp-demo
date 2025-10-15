@@ -1,16 +1,16 @@
 {
   "student_en": {
-    "name": "Alex Carter",
+    "id": "student_en",
+    "name": "Jordan Rivera",
     "language": "en",
-    "eligible_fafsa": true,
-    "email": "alex@example.com",
-    "state": "MA"
+    "qualifies_fafsa": true,
+    "notes": "English demo student"
   },
   "student_es": {
+    "id": "student_es",
     "name": "María López",
     "language": "es",
-    "eligible_fafsa": true,
-    "email": "maria@example.com",
-    "state": "MA"
+    "qualifies_fafsa": true,
+    "notes": "Estudiante demo en español"
   }
 }
